@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bedbug Command Center | Stop Losing Money to Treatment Failures</title>
+  <meta name="description" content="Prevent bedbug treatment failures caused by missed deadlines, spread, and coordination breakdowns. One-time purchase, lifetime control.">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Alpine + Collapse plugin -->
+  <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              900: '#0c4a6e',
+            },
+            dark: {
+              800: '#1e293b',
+              900: '#0f172a',
+              950: '#020617',
+            },
+            gold: {
+              500: '#eab308',
+              600: '#ca8a04',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    [x-cloak] { display: none !important; }
+    body { background-color: #020617; color: #f8fafc; }
+    .hero-pattern {
+      background-image: radial-gradient(#1e293b 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .soft-glow {
+      box-shadow: 0 0 0 1px rgba(14,165,233,.25), 0 20px 60px rgba(14,165,233,.12);
+    }
+    section { scroll-margin-top: 90px; }
+  </style>
+</head>
+
+<body class="antialiased font-sans">
+
+  <!-- NAV -->
+  <nav class="fixed w-full z-50 bg-dark-950/90 backdrop-blur border-b border-gray-800" x-data="{ mobileMenu: false }">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <a href="#top" class="flex-shrink-0 flex items-center gap-2" aria-label="Go to top">
+          <div class="w-8 h-8 bg-brand-500 rounded flex items-center justify-center" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <span class="font-bold text-xl tracking-tight text-white">Bedbug Command Center</span>
+        </a>
+
+        <div class="hidden md:flex space-x-8 items-center">
+          <a href="#problem" class="text-gray-300 hover:text-white transition">The Problem</a>
+          <a href="#solution" class="text-gray-300 hover:text-white transition">How It Works</a>
+          <a href="#roi" class="text-gray-300 hover:text-white transition">ROI</a>
+          <a href="#pricing" class="text-gray-300 hover:text-white transition">Pricing</a>
+          <a href="#demo" class="bg-brand-600 hover:bg-brand-500 text-white px-5 py-2 rounded-md font-medium transition shadow-lg shadow-brand-500/20" aria-label="Get a demo">
+            Get Demo
+          </a>
+        </div>
+
+        <div class="md:hidden flex items-center">
+          <button
+            @click="mobileMenu = !mobileMenu"
+            class="text-gray-300 hover:text-white"
+            :aria-expanded="mobileMenu.toString()"
+            aria-controls="mobileNav"
+            aria-label="Open menu"
+          >
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="mobileNav"
+      x-show="mobileMenu"
+      x-collapse
+      x-cloak
+      class="md:hidden bg-dark-900 border-b border-gray-800"
+    >
+      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <a href="#problem" @click="mobileMenu = false" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">The Problem</a>
+        <a href="#solution" @click="mobileMenu = false" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">How It Works</a>
+        <a href="#roi" @click="mobileMenu = false" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">ROI</a>
+        <a href="#pricing" @click="mobileMenu = false" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">Pricing</a>
+        <a href="#demo" @click="mobileMenu = false" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-brand-600 hover:bg-brand-500">Get Demo</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="top" class="relative pt-32 pb-20 lg:pt-48 lg:pb-28 overflow-hidden hero-pattern">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-900/30 border border-brand-500/30 text-brand-400 text-sm font-semibold mb-6">
+        <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+        30-Day Money-Back Guarantee • No Subscriptions
+      </div>
+
+      <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-400">
+        Stop Losing Money to<br class="hidden md:block" />
+        <span class="text-brand-500">Treatment Failures</span>
+      </h1>
+
+      <p class="mt-4 text-xl text-gray-400 max-w-3xl mx-auto mb-10">
+        One missed deadline = one failed treatment = $2,000-5,000 wasted. Prevent failures caused by timing errors, housekeeping accidents, and undetected spread.
+      </p>
+
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <a href="#pricing" class="px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white rounded-lg font-bold text-lg shadow-xl shadow-brand-500/20 transition transform hover:-translate-y-1">
+          See Pricing ($299-$1,499)
+        </a>
+        <a href="#roi" class="px-8 py-4 bg-gray-800 hover:bg-gray-700 text-gray-200 rounded-lg font-bold text-lg border border-gray-700 transition">
+          Calculate Your Loss
+        </a>
+      </div>
+
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto text-left">
+        <div class="bg-dark-900/60 border border-gray-800 rounded-2xl p-5">
+          <p class="text-sm text-gray-400 uppercase tracking-wider">Never Miss a Window</p>
+          <p class="mt-1 text-white font-semibold">Automatic deadline tracking</p>
+          <p class="mt-2 text-gray-400 text-sm">Know exactly when Day 21 assessment is due—no more guessing or missed follow-ups.</p>
+        </div>
+        <div class="bg-dark-900/60 border border-gray-800 rounded-2xl p-5">
+          <p class="text-sm text-gray-400 uppercase tracking-wider">Prevent Spread Early</p>
+          <p class="mt-1 text-white font-semibold">Visual cluster detection</p>
+          <p class="mt-2 text-gray-400 text-sm">See which clean units are at risk BEFORE bedbugs appear—stop outbreaks early.</p>
+        </div>
+        <div class="bg-dark-900/60 border border-gray-800 rounded-2xl p-5">
+          <p class="text-sm text-gray-400 uppercase tracking-wider">Protect Treatments</p>
+          <p class="mt-1 text-white font-semibold">Daily housekeeping protocols</p>
+          <p class="mt-2 text-gray-400 text-sm">Print instructions: which units to clean normally, which to protect from vacuuming.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section id="problem" class="py-20 bg-dark-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl">
+        <h2 class="text-3xl md:text-4xl font-extrabold text-white">Why Your Bedbug Treatments Keep Failing</h2>
+        <p class="mt-4 text-lg text-gray-400">
+          You hire reputable pest control. They use biological treatments—the most effective approach. Yet treatments still fail, residents complain, and costs spiral. <strong class="text-white">The problem isn't the treatment. It's the timing.</strong>
+        </p>
+      </div>
+
+      <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-dark-900 border border-gray-800 rounded-2xl p-7">
+          <h3 class="text-xl font-bold text-white">Understanding Treatment Windows</h3>
+          <p class="mt-2 text-gray-400">
+            Biological treatments work through natural materials that eliminate bugs over time. But this approach has precise requirements:
+          </p>
+          <div class="mt-6 space-y-3">
+            <div class="flex items-start gap-3">
+              <div class="mt-1 w-2.5 h-2.5 rounded-full bg-brand-500 flex-shrink-0"></div>
+              <div>
+                <p class="font-semibold text-white">Days 1-14: NO Vacuuming</p>
+                <p class="text-gray-400 text-sm">Treatment materials get removed before they can work—complete waste.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="mt-1 w-2.5 h-2.5 rounded-full bg-brand-500 flex-shrink-0"></div>
+              <div>
+                <p class="font-semibold text-white">Day 21: Critical Assessment</p>
+                <p class="text-gray-400 text-sm">Miss this window and you miss the right moment for follow-up decisions.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="mt-1 w-2.5 h-2.5 rounded-full bg-brand-500 flex-shrink-0"></div>
+              <div>
+                <p class="font-semibold text-white">Days 21-35: Follow-up Window</p>
+                <p class="text-gray-400 text-sm">Where control succeeds—or colonies recover and you start over.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-900 border border-gray-800 rounded-2xl p-7">
+          <h3 class="text-xl font-bold text-white">The Tracking Problem</h3>
+          <p class="mt-2 text-gray-400">
+            Even a modest facility has dozens of overlapping deadlines. Spreadsheets don't alert you. Memory fails. Staff turnover erases knowledge.
+          </p>
+
+          <div class="mt-6 bg-dark-950/60 border border-gray-800 rounded-xl p-5">
+            <p class="text-gray-300 font-semibold">Reality check:</p>
+            <p class="mt-1 text-gray-400 text-sm">
+              12 active suites × 4 critical windows = <strong class="text-white">48 biological deadlines</strong> to track manually
+            </p>
+            <p class="mt-2 text-gray-400 text-sm">
+              Plus: daily housekeeping coordination, PCO scheduling, resident communication timing
+            </p>
+          </div>
+
+          <div class="mt-6 grid grid-cols-1 gap-4">
+            <div class="bg-red-900/20 border border-red-800/30 rounded-xl p-4">
+              <p class="text-red-300 font-semibold text-sm">What happens when you miss a deadline:</p>
+              <ul class="mt-2 space-y-1 text-sm text-red-200">
+                <li>• $350-500 retreat visit</li>
+                <li>• $1,500-3,000 vacancy loss if spread occurs</li>
+                <li>• Resident complaints and legal exposure</li>
+                <li>• Reputation damage (online reviews, word-of-mouth)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-10 flex flex-col md:flex-row gap-4 items-start md:items-center justify-between bg-dark-900 border border-gray-800 rounded-2xl p-6">
+        <div>
+          <p class="text-white font-bold text-lg">One missed window = One failed treatment = $2,000-5,000 lost</p>
+          <p class="text-gray-400">Automatic deadline tracking pays for itself by preventing a single failure.</p>
+        </div>
+        <a href="#solution" class="inline-flex items-center justify-center px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white rounded-lg font-bold transition soft-glow whitespace-nowrap">
+          See How It Works →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUTION / FEATURES -->
+  <section id="solution" class="py-20 bg-dark-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl">
+        <h2 class="text-3xl md:text-4xl font-extrabold text-white">What You See Every Day</h2>
+        <p class="mt-4 text-lg text-gray-400">
+          Stop guessing. Stop missing deadlines. Get daily action plans based on biology—not memory.
+        </p>
+      </div>
+
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div class="bg-dark-950 border border-gray-800 rounded-2xl p-6">
+          <div class="w-12 h-12 bg-brand-500/10 rounded-lg flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-white">Today's Critical Actions</h3>
+          <p class="mt-2 text-gray-400 text-sm">
+            Know exactly which suites need attention RIGHT NOW—no guessing. Suite 201 (Day 21 assessment), Suite 315 (containment check).
+          </p>
+        </div>
+
+        <div class="bg-dark-950 border border-gray-800 rounded-2xl p-6">
+          <div class="w-12 h-12 bg-brand-500/10 rounded-lg flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-white">Floor-by-Floor Heatmap</h3>
+          <p class="mt-2 text-gray-400 text-sm">
+            Visual spread patterns identify containment failures instantly. See which clean units are at risk BEFORE bedbugs appear.
+          </p>
+        </div>
+
+        <div class="bg-dark-950 border border-gray-800 rounded-2xl p-6">
+          <div class="w-12 h-12 bg-brand-500/10 rounded-lg flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-white">Printable Housekeeping Protocols</h3>
+          <p class="mt-2 text-gray-400 text-sm">
+            Daily instructions: which units to clean normally, which to protect. Prevents accidental sabotage of treatments.
+          </p>
+        </div>
+
+        <div class="bg-dark-950 border border-gray-800 rounded-2xl p-6">
+          <div class="w-12 h-12 bg-red-500/10 rounded-lg flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-white">Post-Treatment Rebound Alerts</h3>
+          <p class="mt-2 text-gray-400 text-sm">
+            Suite tested positive AFTER treatment? Instant alert—highest priority. Protect your credibility before damage spreads.
+          </p>
+        </div>
+
+        <div class="bg-dark-950 border border-gray-800 rounded-2xl p-6">
+          <div class="w-12 h-12 bg-brand-500/10 rounded-lg flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-white">Professional Documentation</h3>
+          <p class="mt-2 text-gray-400 text-sm">
+            Complete export packages for audits, compliance, and vendor coordination. Evidence—not excuses.
+          </p>
+        </div>
+
+        <div class="bg-dark-950 border border-gray-800 rounded-2xl p-6">
+          <div class="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-white">Your Data Stays On-Device</h3>
+          <p class="mt-2 text-gray-400 text-sm">
+            No cloud upload. No subscription. Works offline. Perfect for facilities with strict privacy policies.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROI CALCULATOR -->
+  <section id="roi" class="py-20 bg-brand-900 relative" x-data="roiCalculator()">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl font-bold text-white mb-2">Calculate What Treatment Failures Cost You</h2>
+        <p class="text-brand-200">Conservative estimate—most facilities underestimate the true cost.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-2xl overflow-hidden md:flex">
+        <div class="p-8 md:w-1/2 bg-gray-50">
+          <h3 class="text-lg font-bold text-gray-900 mb-6">Your Situation (Be Honest)</h3>
+          <div class="space-y-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Annual Bedbug Incidents</label>
+              <input type="range" min="1" max="50" x-model="incidents" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+              <div class="text-right text-brand-600 font-bold" x-text="incidents + ' incidents'"></div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Failure Rate (Timing/Coordination)</label>
+              <input type="range" min="0" max="100" x-model="failureRate" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+              <div class="text-right text-brand-600 font-bold" x-text="failureRate + '%'"></div>
+              <p class="text-xs text-gray-500 mt-1">What percentage fail because of missed deadlines, housekeeping accidents, or undetected spread?</p>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Cost per Failure</label>
+              <select x-model="costPerFailure" class="w-full border-gray-300 rounded-md shadow-sm p-2 bg-white text-gray-900 focus:ring-brand-500 focus:border-brand-500">
+                <option value="2200">Conservative ($2,200 - retreat only)</option>
+                <option value="3500">Realistic ($3,500 - includes vacancy)</option>
+                <option value="4300">Full Cost ($4,300 - includes reputation damage)</option>
+              </select>
+              <p class="text-xs text-gray-500 mt-1">Retreat ($400) + Vacancy ($1,500-3,000) + Resident Compensation ($200-500)</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-8 md:w-1/2 bg-gray-900 text-white flex flex-col justify-center">
+          <div>
+            <p class="text-gray-400 text-sm uppercase tracking-wider mb-1">Your Estimated Annual Loss</p>
+            <h3 class="text-5xl font-bold text-red-400 mb-6" x-text="formatMoney(calculateLoss())"></h3>
+
+            <div class="space-y-3 mb-6">
+              <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">ESSENTIALS Tier ($299)</p>
+                <p class="text-white font-bold text-lg">Prevent <span class="text-brand-400" x-text="breakEvenFailures(299)"></span> failure(s) = Paid</p>
+                <p class="text-gray-400 text-sm mt-1">Basic tracking prevents missed deadlines</p>
+              </div>
+
+              <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">PROFESSIONAL Tier ($499)</p>
+                <p class="text-white font-bold text-lg">Prevent <span class="text-brand-400" x-text="breakEvenFailures(499)"></span> failure(s) = Paid</p>
+                <p class="text-gray-400 text-sm mt-1">Adds heatmaps, cluster tracking, rebound alerts</p>
+              </div>
+
+              <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">ENTERPRISE Tier ($1,499)</p>
+                <p class="text-white font-bold text-lg">Prevent <span class="text-brand-400" x-text="breakEvenFailures(1499)"></span> failure(s) = Paid</p>
+                <p class="text-gray-400 text-sm mt-1">Multi-facility management with priority support</p>
+              </div>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+              <p class="text-sm text-gray-300">
+                <span class="font-bold text-white">Reality:</span>
+                One outbreak (5 retreats) costs more than the software. Years 2+ are pure savings.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="py-24 bg-dark-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-extrabold text-white sm:text-4xl">One-Time Purchase. Lifetime Control.</h2>
+        <p class="mt-4 text-xl text-gray-400">No subscriptions. No hidden fees. Your data stays on your device.</p>
+        <p class="mt-2 text-brand-400 font-semibold">30-Day Money-Back Guarantee</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
+
+        <!-- ESSENTIALS -->
+        <div class="bg-dark-800 rounded-2xl p-6 border border-gray-700 flex flex-col">
+          <div class="mb-4">
+            <h3 class="text-lg font-semibold text-white">Essentials</h3>
+            <p class="text-gray-400 text-sm mt-1">1-3 properties, &lt;150 units</p>
+          </div>
+          <div class="mb-6">
+            <span class="text-4xl font-bold text-white">$299</span>
+            <span class="text-gray-500 text-sm">/lifetime</span>
+          </div>
+          <ul class="space-y-3 text-gray-300 text-sm flex-1 mb-6">
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-green-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Import data (Excel/CSV)
+            </li>
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-green-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Automatic risk scoring
+            </li>
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-green-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Treatment timing alerts
+            </li>
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-green-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Daily action queues
+            </li>
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-green-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              PPE safety protocols
+            </li>
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-green-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Basic export reports
+            </li>
+          </ul>
+          <div class="text-xs text-gray-400 mb-4 p-3 bg-gray-800/50 rounded">
+            <strong class="text-white">ROI:</strong> One prevented callback = paid
+          </div>
+          <a href="#demo" class="w-full block text-center py-3 border border-gray-600 rounded-lg text-white font-medium hover:bg-gray-700 transition" aria-label="Select Essentials plan">
+            Get Essentials
+          </a>
+        </div>
+
+        <!-- PROFESSIONAL -->
+        <div class="bg-dark-800 rounded-2xl p-6 border-2 border-brand-500 relative transform md:-translate-y-4 shadow-2xl shadow-brand-500/10 flex flex-col">
+          <div class="absolute top-0 right-0 bg-brand-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg uppercase">Most Popular</div>
+          <div class="mb-4">
+            <h3 class="text-lg font-semibold text-white">Professional</h3>
+            <p class="text-gray-400 text-sm mt-1">3-10 properties, 150-500 units</p>
+          </div>
+          <div class="mb-6">
+            <span class="text-4xl font-bold text-white">$499</span>
+            <span class="text-gray-500 text-sm">/lifetime</span>
+          </div>
+          <ul class="space-y-3 text-gray-300 text-sm flex-1 mb-6">
+            <li class="flex items-start"><span class="font-bold text-brand-400 mr-2">Everything in Essentials, PLUS:</span></li>
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-brand-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Floor plan heatmaps
+            </li>
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-brand-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Cluster containment alerts
+            </li>
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-brand-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Visit strategy builder
+            </li>
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-brand-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Post-treatment rebound detection
+            </li>
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-brand-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Advanced search & filtering
+            </li>
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-brand-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Professional export packages
+            </li>
+          </ul>
+          <div class="text-xs text-gray-400 mb-4 p-3 bg-brand-900/20 rounded border border-brand-500/20">
+            <strong class="text-brand-400">ROI:</strong> One outbreak prevented (5 retreats) = 3.5x return
+          </div>
+          <a href="#demo" class="w-full block text-center py-3 bg-brand-600 rounded-lg text-white font-bold hover:bg-brand-500 transition shadow-lg shadow-brand-500/25" aria-label="Get Professional plan">
+            Get Professional
+          </a>
+        </div>
+
+        <!-- ENTERPRISE -->
+        <div class="bg-dark-800 rounded-2xl p-6 border border-gray-700 flex flex-col">
+          <div class="mb-4">
+            <h3 class="text-lg font-semibold text-white">Enterprise</h3>
+            <p class="text-gray-400 text-sm mt-1">10+ properties, 500+ units</p>
+          </div>
+          <div class="mb-6">
+            <span class="text-4xl font-bold text-white">$1,499</span>
+            <span class="text-gray-500 text-sm">/lifetime</span>
+          </div>
+          <ul class="space-y-3 text-gray-300 text-sm flex-1 mb-6">
+            <li class="flex items-start"><span class="font-bold text-white mr-2">Everything in Professional, PLUS:</span></li>
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-purple-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Map Builder wizard
+            </li>
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-purple-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Priority email support
+            </li>
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-purple-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Multi-facility dashboard
+            </li>
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-purple-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Bulk data management
+            </li>
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-purple-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Custom feature requests
+            </li>
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-purple-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              White-label export options
+            </li>
+          </ul>
+          <div class="text-xs text-gray-400 mb-4 p-3 bg-gray-800/50 rounded">
+            <strong class="text-white">ROI:</strong> Portfolio standardization with compounding savings
+          </div>
+          <a href="#demo" class="w-full block text-center py-3 border border-purple-500/30 text-purple-300 rounded-lg font-medium hover:bg-purple-500/10 transition" aria-label="Select Enterprise plan">
+            Get Enterprise
+          </a>
+        </div>
+
+        <!-- CUSTOM -->
+        <div class="bg-gradient-to-b from-dark-800 to-dark-900 rounded-2xl p-6 border border-gold-600/30 flex flex-col relative overflow-hidden">
+          <div class="absolute top-0 right-0 -mt-2 -mr-2 w-16 h-16 bg-gold-500/10 rounded-full blur-xl"></div>
+          <div class="mb-4">
+            <h3 class="text-lg font-bold text-gold-500">Custom</h3>
+            <p class="text-gray-400 text-sm mt-1">Need something specific?</p>
+          </div>
+          <div class="mb-6">
+            <span class="text-2xl font-bold text-white">Contact Us</span>
+          </div>
+          <ul class="space-y-3 text-gray-300 text-sm flex-1 mb-6">
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-gold-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Unlimited facilities
+            </li>
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-gold-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              White-label (remove branding)
+            </li>
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-gold-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Dedicated account manager
+            </li>
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-gold-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Train-the-trainer rollout
+            </li>
+            <li class="flex items-start">
+              <svg class="w-4 h-4 text-gold-500 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              API access (coming soon)
+            </li>
+          </ul>
+          <a href="#demo" class="w-full block text-center py-3 bg-gradient-to-r from-gold-600 to-yellow-600 rounded-lg text-white font-bold hover:from-gold-500 hover:to-yellow-500 transition shadow-lg shadow-gold-500/20" aria-label="Contact sales for Custom plan">
+            Contact Sales
+          </a>
+        </div>
+
+      </div>
+
+      <div class="mt-10 text-center">
+        <p class="text-gray-400 text-sm mb-4">
+          <strong class="text-white">30-Day Money-Back Guarantee:</strong> If it doesn't prevent failures and save time, full refund—no questions asked.
+        </p>
+        <p class="text-gray-500 text-xs">
+          No subscriptions. No cloud dependency. Your data stays on your device.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO -->
+  <section id="demo" class="py-20 bg-dark-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-extrabold text-white">See It In Action</h2>
+          <p class="mt-4 text-lg text-gray-400">
+            15-minute demo. No pressure. See how automatic deadline tracking prevents failures.
+          </p>
+
+          <div class="mt-8 space-y-4">
+            <div class="bg-dark-900 border border-gray-800 rounded-2xl p-6">
+              <p class="text-white font-semibold">What You'll See</p>
+              <ul class="mt-3 space-y-2 text-sm text-gray-400">
+                <li class="flex items-start">
+                  <svg class="w-4 h-4 text-brand-500 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  How automatic deadline tracking prevents missed Day 21 assessments
+                </li>
+                <li class="flex items-start">
+                  <svg class="w-4 h-4 text-brand-500 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Visual heatmaps showing which clean units are at risk
+                </li>
+                <li class="flex items-start">
+                  <svg class="w-4 h-4 text-brand-500 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Daily printable housekeeping protocols (which units to protect)
+                </li>
+                <li class="flex items-start">
+                  <svg class="w-4 h-4 text-brand-500 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Post-treatment rebound alerts (highest priority situations)
+                </li>
+              </ul>
+            </div>
+
+            <div class="bg-dark-900 border border-gray-800 rounded-2xl p-6">
+              <p class="text-white font-semibold mb-3">Common Questions</p>
+              <div class="space-y-3 text-sm">
+                <div>
+                  <p class="text-gray-300 font-semibold">Q: Is this a subscription?</p>
+                  <p class="text-gray-400">A: No. One-time purchase, lifetime use. No recurring fees.</p>
+                </div>
+                <div>
+                  <p class="text-gray-300 font-semibold">Q: Does my data get uploaded to the cloud?</p>
+                  <p class="text-gray-400">A: No. Everything stays on your device. Perfect for strict privacy policies.</p>
+                </div>
+                <div>
+                  <p class="text-gray-300 font-semibold">Q: What if it doesn't work for us?</p>
+                  <p class="text-gray-400">A: 30-day money-back guarantee. If it doesn't prevent failures, full refund.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-900 border border-gray-800 rounded-2xl p-8">
+          <h3 class="text-xl font-bold text-white">Request Demo</h3>
+          <p class="text-gray-400 text-sm mt-2">See exactly how it prevents failures in YOUR facility.</p>
+
+          <form class="mt-6 space-y-4" onsubmit="event.preventDefault(); alert('Demo request submitted! (Connect your CRM endpoint)');">
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-1">Name</label>
+              <input required class="w-full rounded-lg bg-dark-950 border border-gray-800 px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="Your name">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-1">Work Email</label>
+              <input type="email" required class="w-full rounded-lg bg-dark-950 border border-gray-800 px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="name@property.com">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-1">Facility Type</label>
+              <select class="w-full rounded-lg bg-dark-950 border border-gray-800 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+                <option>Senior Living</option>
+                <option>Multi-Family Apartments</option>
+                <option>Hotel/Hospitality</option>
+                <option>Property Management Company</option>
+                <option>Pest Control Operator</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-1"># Properties</label>
+                <input type="number" min="1" class="w-full rounded-lg bg-dark-950 border border-gray-800 px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="e.g., 5">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-1">Total Units</label>
+                <input type="number" min="1" class="w-full rounded-lg bg-dark-950 border border-gray-800 px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="e.g., 850">
+              </div>
+            </div>
+
+            <button class="w-full py-3 bg-brand-600 hover:bg-brand-500 text-white rounded-lg font-bold transition shadow-lg shadow-brand-500/20">
+              Get Demo
+            </button>
+
+            <p class="text-xs text-gray-500 mt-3">
+              Your data stays private. Demo uses dummy data to show functionality.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-dark-950 border-t border-gray-800 pt-12 pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div class="col-span-1 md:col-span-2">
+          <span class="font-bold text-xl tracking-tight text-white mb-4 block">Bedbug Command Center</span>
+          <p class="text-gray-500 text-sm max-w-xs">
+            Prevent treatment failures caused by timing errors, housekeeping accidents, and undetected spread. One-time purchase, lifetime control.
+          </p>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-4">Who It's For</h4>
+          <ul class="space-y-2 text-sm text-gray-500">
+            <li><a href="#demo" class="hover:text-brand-400">Senior Living</a></li>
+            <li><a href="#demo" class="hover:text-brand-400">Property Managers</a></li>
+            <li><a href="#demo" class="hover:text-brand-400">Hotels</a></li>
+            <li><a href="#demo" class="hover:text-brand-400">Pest Control Operators</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-4">Resources</h4>
+          <ul class="space-y-2 text-sm text-gray-500">
+            <li><a href="#demo" class="hover:text-brand-400">Request Demo</a></li>
+            <li><a href="#pricing" class="hover:text-brand-400">Pricing</a></li>
+            <li><a href="#roi" class="hover:text-brand-400">ROI Calculator</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-800 pt-8 text-center text-gray-600 text-sm">
+        &copy; 2025 Bedbug Command Center. All rights reserved. • 
+        <a href="mailto:demo@bedbugcommandcenter.com" class="hover:text-brand-400">demo@bedbugcommandcenter.com</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function roiCalculator() {
+      return {
+        incidents: 10,
+        failureRate: 30,
+        costPerFailure: 2200,
+
+        calculateLoss() {
+          const failures = Math.round(this.incidents * (this.failureRate / 100));
+          return failures * Number(this.costPerFailure);
+        },
+
+        breakEvenFailures(price) {
+          const val = Number(price) / Number(this.costPerFailure);
+          if (val < 1) return "less than 1";
+          return String(Math.ceil(val));
+        },
+
+        formatMoney(value) {
+          return new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            maximumFractionDigits: 0
+          }).format(value);
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>
