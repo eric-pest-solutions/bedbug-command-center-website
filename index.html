@@ -1,1 +1,1830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bedbug Command Center | Stop Treatment Failures Before They Start</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-deep: #0a0e17;
+      --bg-card: #111827;
+      --bg-elevated: #1a2234;
+      --accent: #10b981;
+      --accent-glow: #34d399;
+      --accent-dark: #059669;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --gold: #eab308;
+      --gold-dark: #ca8a04;
+      --purple: #8b5cf6;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --border: #1e293b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Animated background */
+    .bg-pattern {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+    }
+
+    .floating-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      animation: float 20s ease-in-out infinite;
+    }
+
+    .orb-1 {
+      width: 600px;
+      height: 600px;
+      background: rgba(16, 185, 129, 0.15);
+      top: -200px;
+      left: -200px;
+      animation-delay: 0s;
+    }
+
+    .orb-2 {
+      width: 400px;
+      height: 400px;
+      background: rgba(59, 130, 246, 0.1);
+      bottom: 20%;
+      right: -100px;
+      animation-delay: -7s;
+    }
+
+    .orb-3 {
+      width: 300px;
+      height: 300px;
+      background: rgba(16, 185, 129, 0.1);
+      top: 60%;
+      left: 10%;
+      animation-delay: -14s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(50px, -30px) scale(1.05); }
+      50% { transform: translate(-20px, 40px) scale(0.95); }
+      75% { transform: translate(30px, 20px) scale(1.02); }
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 1rem 2rem;
+      background: rgba(10, 14, 23, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      animation: slideDown 0.6s ease-out;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--text-primary);
+    }
+
+    .logo-text span {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-primary);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.875rem 1.75rem;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: white;
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-secondary {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-card);
+      border-color: var(--accent);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: #1a1a1a;
+      box-shadow: 0 4px 20px rgba(234, 179, 8, 0.3);
+    }
+
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(234, 179, 8, 0.4);
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 2rem 4rem;
+      z-index: 1;
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 100px;
+      font-size: 0.875rem;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+    }
+
+    .hero h1 .highlight {
+      color: var(--accent);
+      position: relative;
+    }
+
+    .hero h1 .highlight::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 2px;
+      transform: scaleX(0);
+      animation: underline 0.8s ease-out 1.2s forwards;
+    }
+
+    @keyframes underline {
+      to { transform: scaleX(1); }
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+      animation: fadeInUp 0.8s ease-out 0.6s both;
+    }
+
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      animation: fadeInUp 0.8s ease-out 0.8s both;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Stats Bar */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid var(--border);
+      animation: fadeInUp 0.8s ease-out 1s both;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--accent);
+      display: block;
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+
+    .stat-ref {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      opacity: 0.7;
+    }
+
+    /* Sections */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 6rem 2rem;
+    }
+
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin-bottom: 3rem;
+    }
+
+    /* Problem Section */
+    .problem {
+      background: linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-card) 100%);
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .problem-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .problem-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--danger), var(--warning));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .problem-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    .problem-card:hover::before {
+      opacity: 1;
+    }
+
+    .problem-icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(239, 68, 68, 0.1);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .problem-icon svg {
+      width: 28px;
+      height: 28px;
+      color: var(--danger);
+    }
+
+    .problem-card h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .problem-card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    /* Solution Section */
+    .solution {
+      background: var(--bg-card);
+    }
+
+    .solution-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .solution-card {
+      background: var(--bg-deep);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: all 0.4s ease;
+      position: relative;
+    }
+
+    .solution-card::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 21px;
+      background: linear-gradient(135deg, var(--accent), transparent);
+      opacity: 0;
+      z-index: -1;
+      transition: opacity 0.3s;
+    }
+
+    .solution-card:hover {
+      transform: translateY(-5px);
+      border-color: transparent;
+    }
+
+    .solution-card:hover::after {
+      opacity: 1;
+    }
+
+    .solution-number {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--accent);
+      opacity: 0.3;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .solution-card h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .solution-card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    /* Benefits Section */
+    .benefits {
+      background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-deep) 100%);
+    }
+
+    .benefits-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .benefits-wrapper {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+
+    .benefit-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .benefit-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1.5rem;
+      background: var(--bg-elevated);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .benefit-item:hover {
+      border-color: var(--accent);
+      transform: translateX(10px);
+    }
+
+    .benefit-check {
+      width: 40px;
+      height: 40px;
+      background: rgba(16, 185, 129, 0.1);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .benefit-check svg {
+      width: 20px;
+      height: 20px;
+      color: var(--accent);
+    }
+
+    .benefit-content h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .benefit-content p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .benefits-visual {
+      position: relative;
+    }
+
+    .visual-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .visual-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, transparent, var(--accent), transparent);
+      animation: rotate 8s linear infinite;
+      opacity: 0.1;
+    }
+
+    @keyframes rotate {
+      to { transform: rotate(360deg); }
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 2rem;
+    }
+
+    .timeline-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -2rem;
+      top: 0;
+      width: 16px;
+      height: 16px;
+      background: var(--accent);
+      border-radius: 50%;
+      transform: translateX(-7px);
+      box-shadow: 0 0 20px var(--accent);
+    }
+
+    .timeline-item h5 {
+      font-size: 0.875rem;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-item p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    /* ROI Section */
+    .roi {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, var(--bg-deep) 100%);
+    }
+
+    .roi-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 3rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .roi-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .roi-header h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .roi-header p {
+      color: var(--text-secondary);
+    }
+
+    .roi-calculator {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 700px) {
+      .roi-calculator {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .roi-inputs label {
+      display: block;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .roi-inputs input[type="range"] {
+      width: 100%;
+      margin-bottom: 1.5rem;
+      accent-color: var(--accent);
+    }
+
+    .range-value {
+      text-align: right;
+      font-weight: 600;
+      color: var(--accent);
+      margin-top: -0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .roi-result {
+      background: var(--bg-deep);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .roi-result-label {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .roi-result-value {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--danger);
+    }
+
+    .roi-insight {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: rgba(16, 185, 129, 0.1);
+      border-radius: 12px;
+      font-size: 0.9rem;
+      color: var(--accent-glow);
+    }
+
+    /* Pricing Section */
+    .pricing {
+      background: var(--bg-card);
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 1100px) {
+      .pricing-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .pricing-card {
+      background: var(--bg-deep);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 1.75rem;
+      position: relative;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pricing-card.featured {
+      border-color: var(--accent);
+      transform: scale(1.02);
+      z-index: 2;
+    }
+
+    .pricing-card.featured::before {
+      content: 'Best Value';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.25rem 0.875rem;
+      border-radius: 100px;
+      text-transform: uppercase;
+    }
+
+    .pricing-card.gold {
+      border-color: var(--gold);
+      background: linear-gradient(180deg, var(--bg-deep) 0%, rgba(234, 179, 8, 0.05) 100%);
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .pricing-card.featured:hover {
+      transform: scale(1.02) translateY(-5px);
+    }
+
+    .pricing-header {
+      margin-bottom: 1.25rem;
+    }
+
+    .pricing-header h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .pricing-header.gold h3 {
+      color: var(--gold);
+    }
+
+    .pricing-header p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .pricing-price {
+      margin-bottom: 1.25rem;
+    }
+
+    .pricing-price .amount {
+      font-size: 2.25rem;
+      font-weight: 800;
+    }
+
+    .pricing-price .period {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 1.5rem;
+      flex: 1;
+    }
+
+    .pricing-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      padding: 0.4rem 0;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .pricing-features li svg {
+      width: 16px;
+      height: 16px;
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .pricing-features li.gold-feat svg {
+      color: var(--gold);
+    }
+
+    .pricing-features li.purple-feat svg {
+      color: var(--purple);
+    }
+
+    .pricing-card .btn {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+    }
+
+    /* CTA Section */
+    .cta {
+      background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-deep) 100%);
+      text-align: center;
+    }
+
+    .cta-inner {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .cta h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 1rem;
+    }
+
+    .cta p {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+    }
+
+    .cta-form {
+      display: flex;
+      gap: 1rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .cta-form input {
+      flex: 1;
+      padding: 1rem 1.25rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-size: 1rem;
+    }
+
+    .cta-form input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .cta-form input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    @media (max-width: 600px) {
+      .cta-form {
+        flex-direction: column;
+      }
+    }
+
+    /* Research Footer */
+    .research-footer {
+      background: var(--bg-deep);
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .research-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .research-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .research-header h4 {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .research-header p {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .research-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .research-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      transition: border-color 0.3s;
+    }
+
+    .research-item:hover {
+      border-color: var(--accent);
+    }
+
+    .research-journal {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .research-title {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+
+    .research-citation {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .research-supports {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .research-supports span {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .research-supports strong {
+      color: var(--text-secondary);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--bg-deep);
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .footer-copy {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    /* Mobile nav */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .mobile-menu-btn {
+        display: block;
+      }
+    }
+
+    /* Scroll animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* Success message styling */
+    .success-message {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--bg-elevated);
+      border: 2px solid var(--accent);
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 400px;
+      text-align: center;
+      z-index: 1000;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+
+    .success-message h3 {
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .success-message p {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .success-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 999;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Background Pattern -->
+  <div class="bg-pattern">
+    <div class="floating-orb orb-1"></div>
+    <div class="floating-orb orb-2"></div>
+    <div class="floating-orb orb-3"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="logo">
+        <div class="logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            <path d="m9 12 2 2 4-4"></path>
+          </svg>
+        </div>
+        <span class="logo-text">Bedbug <span>Command Center</span></span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#problem">The Problem</a>
+        <a href="#solution">How It Works</a>
+        <a href="#benefits">Benefits</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#demo" class="btn btn-primary">Get Started</a>
+      </div>
+
+      <button class="mobile-menu-btn" aria-label="Menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Now Available — One-Time Purchase, Lifetime Access
+      </div>
+
+      <h1>
+        Stop Wasting Money on<br>
+        <span class="highlight">Failed Treatments</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        When housekeeping accidentally disrupts a treatment or a follow-up gets missed, 
+        you pay twice. Our system makes sure every treatment gets completed right—the first time.
+      </p>
+
+      <div class="hero-cta">
+        <a href="#pricing" class="btn btn-primary">See Plans & Pricing</a>
+        <a href="#roi" class="btn btn-secondary">Calculate What You're Losing</a>
+      </div>
+
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-number">$3,500</span>
+          <span class="stat-label">Average cost of a failed treatment</span>
+          <span class="stat-ref">[1]</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">3–7 Days</span>
+          <span class="stat-label">Time for treatments to work</span>
+          <span class="stat-ref">[2]</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">14 Days</span>
+          <span class="stat-label">Critical window after treatment</span>
+          <span class="stat-ref">[3]</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem Section -->
+  <section id="problem" class="problem">
+    <div class="section-inner">
+      <span class="section-label reveal">The Real Issue</span>
+      <h2 class="section-title reveal reveal-delay-1">
+        It's Not the Product. It's the Timing.
+      </h2>
+      <p class="section-subtitle reveal reveal-delay-2">
+        Most treatment failures happen because of what happens after the technician leaves—
+        not because of the treatment itself.
+      </p>
+
+      <div class="problem-grid">
+        <div class="problem-card reveal reveal-delay-1">
+          <div class="problem-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+          <h3>Housekeeping Doesn't Know</h3>
+          <p>
+            Regular cleaning in treated rooms can undo days of progress. 
+            Without clear guidance, your team accidentally resets the clock.
+          </p>
+        </div>
+
+        <div class="problem-card reveal reveal-delay-2">
+          <div class="problem-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </div>
+          <h3>Follow-Ups Get Missed</h3>
+          <p>
+            You've got dozens of rooms at different stages. 
+            One missed follow-up can turn a "solved" problem into a spreading one.
+          </p>
+        </div>
+
+        <div class="problem-card reveal reveal-delay-3">
+          <div class="problem-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+              <line x1="12" y1="9" x2="12" y2="13"></line>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+          </div>
+          <h3>One Room Becomes Five</h3>
+          <p>
+            Without early detection of spreading patterns, 
+            a single problem room quietly becomes an expensive outbreak.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solution Section -->
+  <section id="solution" class="solution">
+    <div class="section-inner">
+      <span class="section-label reveal">The Solution</span>
+      <h2 class="section-title reveal reveal-delay-1">
+        We Handle the Timing. You Get the Results.
+      </h2>
+      <p class="section-subtitle reveal reveal-delay-2">
+        The Command Center watches every room, every deadline, every day—
+        so nothing slips through the cracks.
+      </p>
+
+      <div class="solution-grid">
+        <div class="solution-card reveal reveal-delay-1">
+          <div class="solution-number">01</div>
+          <h3>Automatic "Don't Clean Here" Lists</h3>
+          <p>
+            Every morning, your housekeeping team gets a simple list of rooms to skip. 
+            No guesswork, no accidents.
+          </p>
+        </div>
+
+        <div class="solution-card reveal reveal-delay-2">
+          <div class="solution-number">02</div>
+          <h3>Never Miss a Follow-Up</h3>
+          <p>
+            The system tracks when each room needs attention and alerts you 
+            before deadlines pass—not after.
+          </p>
+        </div>
+
+        <div class="solution-card reveal reveal-delay-3">
+          <div class="solution-number">03</div>
+          <h3>Catch Spread Early</h3>
+          <p>
+            Visual maps show you when neighboring rooms are at risk, 
+            so you can contain problems before they multiply.
+          </p>
+        </div>
+
+        <div class="solution-card reveal reveal-delay-4">
+          <div class="solution-number">04</div>
+          <h3>Proof for Inspectors & Owners</h3>
+          <p>
+            Clean reports show you followed proper procedures. 
+            That's peace of mind during any audit or inspection.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section id="benefits" class="benefits">
+    <div class="section-inner">
+      <div class="benefits-wrapper">
+        <div>
+          <span class="section-label reveal">Why Managers Love It</span>
+          <h2 class="section-title reveal reveal-delay-1">
+            Less Stress. Fewer Failures. Better Sleep.
+          </h2>
+          
+          <div class="benefit-list">
+            <div class="benefit-item reveal reveal-delay-2">
+              <div class="benefit-check">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <div class="benefit-content">
+                <h4>Stop Paying Twice</h4>
+                <p>When treatments work the first time, you save thousands per incident.</p>
+              </div>
+            </div>
+
+            <div class="benefit-item reveal reveal-delay-3">
+              <div class="benefit-check">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <div class="benefit-content">
+                <h4>Staff Can't Make Mistakes</h4>
+                <p>Clear daily instructions mean even new employees won't accidentally cause problems.</p>
+              </div>
+            </div>
+
+            <div class="benefit-item reveal reveal-delay-4">
+              <div class="benefit-check">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <div class="benefit-content">
+                <h4>Keep Residents Happy</h4>
+                <p>Faster resolution means less disruption and fewer complaints.</p>
+              </div>
+            </div>
+
+            <div class="benefit-item reveal reveal-delay-4">
+              <div class="benefit-check">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <div class="benefit-content">
+                <h4>Works Offline, No Subscriptions</h4>
+                <p>Your data stays on your device. One purchase, use it forever.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="benefits-visual reveal">
+          <div class="visual-card">
+            <h4 style="font-size: 1.125rem; margin-bottom: 1.5rem; color: var(--text-primary);">How a Treatment Should Go</h4>
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <h5>Day 1: Treatment Applied</h5>
+                <p>Technician treats the room. Clock starts.</p>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <h5>Days 1–14: Protected Period</h5>
+                <p>Housekeeping gets "skip this room" notice automatically.</p>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <h5>Day 21: Follow-Up Alert</h5>
+                <p>System reminds you to check results—before it's too late.</p>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <h5>Day 21–35: Confirmation</h5>
+                <p>Verify success or catch problems early.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROI Section -->
+  <section id="roi" class="roi">
+    <div class="section-inner">
+      <div class="roi-card reveal">
+        <div class="roi-header">
+          <h3>What Are Timing Mistakes Costing You?</h3>
+          <p>Adjust the sliders to estimate your annual losses</p>
+        </div>
+
+        <div class="roi-calculator">
+          <div class="roi-inputs">
+            <label>How many incidents per year?</label>
+            <input type="range" id="incidents" min="1" max="50" value="10">
+            <div class="range-value" id="incidentsValue">10 incidents</div>
+
+            <label>What percentage fail due to timing/coordination?</label>
+            <input type="range" id="failureRate" min="5" max="50" value="25">
+            <div class="range-value" id="failureRateValue">25%</div>
+
+            <label>Cost per failed treatment (retreatment + vacancy)</label>
+            <input type="range" id="costPerFailure" min="1500" max="5000" value="3500" step="500">
+            <div class="range-value" id="costValue">$3,500</div>
+          </div>
+
+          <div class="roi-result">
+            <div class="roi-result-label">Estimated Annual Loss</div>
+            <div class="roi-result-value" id="lossValue">$8,750</div>
+            <div class="roi-insight">
+              <strong>Insight:</strong> Preventing just <span id="breakeven">1</span> failure pays for the software.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section id="pricing" class="pricing">
+    <div class="section-inner">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <span class="section-label reveal">Simple Pricing</span>
+        <h2 class="section-title reveal reveal-delay-1">
+          One Payment. Use It Forever.
+        </h2>
+        <p class="section-subtitle reveal reveal-delay-2" style="margin: 1rem auto 0;">
+          No subscriptions. No hidden fees. Your data stays on your device.
+        </p>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- Basic -->
+        <div class="pricing-card reveal reveal-delay-1">
+          <div class="pricing-header">
+            <h3>Basic</h3>
+            <p>Small properties (&lt;100 units)</p>
+          </div>
+          <div class="pricing-price">
+            <span class="amount">$299</span>
+            <span class="period">/lifetime</span>
+          </div>
+          <ul class="pricing-features">
+            <li>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Single facility license
+            </li>
+            <li>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Basic dashboard
+            </li>
+            <li>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Daily housekeeping lists
+            </li>
+            <li>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Standard exports
+            </li>
+          </ul>
+          <a href="#demo" class="btn btn-secondary">Select Basic</a>
+        </div>
+
+        <!-- Professional (Featured) -->
+        <div class="pricing-card featured reveal reveal-delay-2">
+          <div class="pricing-header">
+            <h3>Professional</h3>
+            <p>Standard facility (&lt;500 units)</p>
+          </div>
+          <div class="pricing-price">
+            <span class="amount">$499</span>
+            <span class="period">/lifetime</span>
+          </div>
+          <ul class="pricing-features">
+            <li>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Everything in Basic
+            </li>
+            <li>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <strong>Unlimited</strong> rooms
+            </li>
+            <li>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Spread detection maps
+            </li>
+            <li>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Priority alerts for rebounds
+            </li>
+            <li>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Audit-ready documentation
+            </li>
+          </ul>
+          <a href="#demo" class="btn btn-primary">Get Professional</a>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="pricing-card reveal reveal-delay-3">
+          <div class="pricing-header">
+            <h3>Enterprise</h3>
+            <p>Large campus or multi-site (up to 5)</p>
+          </div>
+          <div class="pricing-price">
+            <span class="amount">$1,499</span>
+            <span class="period">/lifetime</span>
+          </div>
+          <ul class="pricing-features">
+            <li class="purple-feat">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Everything in Pro
+            </li>
+            <li class="purple-feat">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <strong>Up to 5</strong> facility licenses
+            </li>
+            <li class="purple-feat">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Multi-building view
+            </li>
+            <li class="purple-feat">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Custom logo branding
+            </li>
+            <li class="purple-feat">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Priority phone support
+            </li>
+          </ul>
+          <a href="#demo" class="btn btn-secondary">Select Enterprise</a>
+        </div>
+
+        <!-- Portfolio -->
+        <div class="pricing-card gold reveal reveal-delay-4">
+          <div class="pricing-header gold">
+            <h3>Portfolio</h3>
+            <p>Regional groups (5+ sites)</p>
+          </div>
+          <div class="pricing-price">
+            <span class="amount" style="color: var(--gold);">$2,999</span>
+            <span class="period">/lifetime</span>
+          </div>
+          <ul class="pricing-features">
+            <li class="gold-feat">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <strong>Unlimited</strong> facilities
+            </li>
+            <li class="gold-feat">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              White-label (your branding)
+            </li>
+            <li class="gold-feat">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Dedicated account manager
+            </li>
+            <li class="gold-feat">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              1-hour train-the-trainer session
+            </li>
+            <li class="gold-feat">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Priority feature requests
+            </li>
+          </ul>
+          <a href="#demo" class="btn btn-gold">Contact Sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section id="demo" class="cta">
+    <div class="section-inner">
+      <div class="cta-inner reveal">
+        <h2>See It In Action</h2>
+        <p>
+          Get a 15-minute walkthrough. No pressure, no hard sell—just see 
+          how it could work for your property.
+        </p>
+        <form class="cta-form" id="demoForm">
+          <input type="email" id="emailInput" placeholder="Enter your work email" required>
+          <button type="submit" class="btn btn-primary">Request Demo</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Research Citations Footer -->
+  <section class="research-footer">
+    <div class="research-inner">
+      <div class="research-header">
+        <h4>Research & Evidence Base</h4>
+        <p>Our timing protocols are aligned with published peer-reviewed research</p>
+      </div>
+
+      <div class="research-grid">
+        <div class="research-item">
+          <div class="research-journal">Journal of Economic Entomology</div>
+          <div class="research-title">Effects of surface type and distance traveled on the efficacy of a Beauveria bassiana-based biopesticide for bed bug control</div>
+          <div class="research-citation">Principato S, DeVries ZC. J Econ Entomol. 2024;117(5):1786–1795</div>
+          <div class="research-supports">
+            <span>Supports: <strong>Treatment timing windows, residual efficacy</strong></span>
+          </div>
+        </div>
+
+        <div class="research-item">
+          <div class="research-journal">Pest Management Science</div>
+          <div class="research-title">Biological control of Cimex lectularius with Beauveria bassiana: Effects of substrate, dosage, application strategy, and bed bug physiology</div>
+          <div class="research-citation">Aak A, Hage M, Rukke BA. Pest Manag Sci. 2023;79(11):4599–4606</div>
+          <div class="research-supports">
+            <span>Supports: <strong>Post-treatment protection periods, housekeeping coordination</strong></span>
+          </div>
+        </div>
+
+        <div class="research-item">
+          <div class="research-journal">Journal of Invertebrate Pathology</div>
+          <div class="research-title">A preliminary evaluation of the potential of Beauveria bassiana for bed bug control</div>
+          <div class="research-citation">Barbarin AM, Jenkins NE, Rajotte EG, Thomas MB. J Invertebr Pathol. 2012;111(1):82–85</div>
+          <div class="research-supports">
+            <span>Supports: <strong>3–7 day mortality timeline, spore transfer between individuals</strong></span>
+          </div>
+        </div>
+
+        <div class="research-item">
+          <div class="research-journal">National Center for Healthy Housing</div>
+          <div class="research-title">What's Working for Bed Bug Control in Multifamily Housing: Reconciling best practices with research</div>
+          <div class="research-citation">NCHH/HUD Report. Wang C, et al. referenced</div>
+          <div class="research-supports">
+            <span>Supports: <strong>Adjacent unit inspections, two-week follow-up intervals</strong></span>
+          </div>
+        </div>
+
+        <div class="research-item">
+          <div class="research-journal">Pest Management Science</div>
+          <div class="research-title">Insect pathogenic fungi and bed bugs: behaviour, horizontal transfer and the potential contribution to IPM solutions</div>
+          <div class="research-citation">Aak A, Hage M, Rukke BA. J Pest Sci. 2018;91(2):823–835</div>
+          <div class="research-supports">
+            <span>Supports: <strong>Cluster spread patterns, secondary transmission</strong></span>
+          </div>
+        </div>
+
+        <div class="research-item">
+          <div class="research-journal">U.S. EPA & HUD Guidelines</div>
+          <div class="research-title">Controlling Bed Bugs Using Integrated Pest Management (IPM) & HUD Notice H 2011-20</div>
+          <div class="research-citation">EPA.gov; HUD Office of Housing</div>
+          <div class="research-supports">
+            <span>Supports: <strong>IPM protocols, documentation requirements, adjacent-unit inspection mandates</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="#problem">The Problem</a>
+        <a href="#solution">How It Works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+      <p class="footer-copy">
+        © 2025 Bedbug Command Center. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal animation
+    function reveal() {
+      const reveals = document.querySelectorAll('.reveal');
+      
+      reveals.forEach(element => {
+        const windowHeight = window.innerHeight;
+        const elementTop = element.getBoundingClientRect().top;
+        const elementVisible = 150;
+        
+        if (elementTop < windowHeight - elementVisible) {
+          element.classList.add('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', reveal);
+    reveal(); // Run on load
+
+    // ROI Calculator
+    const incidentsSlider = document.getElementById('incidents');
+    const failureRateSlider = document.getElementById('failureRate');
+    const costSlider = document.getElementById('costPerFailure');
+
+    function updateROI() {
+      const incidents = parseInt(incidentsSlider.value);
+      const failureRate = parseInt(failureRateSlider.value);
+      const costPerFailure = parseInt(costSlider.value);
+      
+      const failures = Math.round(incidents * (failureRate / 100));
+      const totalLoss = failures * costPerFailure;
+      const breakeven = Math.max(1, Math.ceil(499 / costPerFailure));
+      
+      document.getElementById('incidentsValue').textContent = incidents + ' incidents';
+      document.getElementById('failureRateValue').textContent = failureRate + '%';
+      document.getElementById('costValue').textContent = '$' + costPerFailure.toLocaleString();
+      document.getElementById('lossValue').textContent = '$' + totalLoss.toLocaleString();
+      document.getElementById('breakeven').textContent = breakeven;
+    }
+
+    incidentsSlider.addEventListener('input', updateROI);
+    failureRateSlider.addEventListener('input', updateROI);
+    costSlider.addEventListener('input', updateROI);
+    
+    updateROI(); // Initialize
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Demo form submission handler with correct email
+    document.getElementById('demoForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const email = document.getElementById('emailInput').value;
+      const subject = 'Demo Request - Bedbug Command Center';
+      const body = `Hello,
+
+I would like to request a demo of the Bedbug Command Center.
+
+My email: ${email}
+
+Best regards`;
+
+      // Create mailto link with CORRECT email address
+      const mailtoLink = `mailto:eric@bedbugcommandcenter.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      
+      // Open email client
+      window.location.href = mailtoLink;
+      
+      // Show success message
+      const backdrop = document.createElement('div');
+      backdrop.className = 'success-backdrop';
+      
+      const message = document.createElement('div');
+      message.className = 'success-message';
+      message.innerHTML = `
+        <h3>✓ Opening Your Email Client</h3>
+        <p>A pre-filled email to <strong>eric@bedbugcommandcenter.com</strong> is being opened. Please send it to complete your demo request.</p>
+        <button class="btn btn-primary" onclick="this.parentElement.parentElement.remove(); this.parentElement.remove();">Close</button>
+      `;
+      
+      document.body.appendChild(backdrop);
+      document.body.appendChild(message);
+      
+      backdrop.addEventListener('click', function() {
+        backdrop.remove();
+        message.remove();
+      });
+      
+      // Auto-close after 5 seconds
+      setTimeout(() => {
+        if (backdrop.parentElement) backdrop.remove();
+        if (message.parentElement) message.remove();
+      }, 5000);
+    });
+  </script>
+</body>
+</html>
 
