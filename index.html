@@ -2044,5 +2044,40 @@
       lastScrollTop = scrollTop;
     });
   </script>
+  <div id="leadModal" class="modal">
+    <div class="modal-content" style="max-width: 500px;">
+      <button class="modal-close" onclick="closeLeadModal()">×</button>
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <h3 style="font-size: 1.75rem; color: var(--accent); margin-bottom: 0.5rem;">Request a Demo</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">Join the elite facilities using Biology-Driven Timing Intelligence.</p>
+      </div>
+      
+      <form id="demoForm" onsubmit="handleDemoSubmit(event)">
+        <div style="margin-bottom: 1.5rem; text-align: left;">
+          <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">Full Name</label>
+          <input type="text" id="formName" style="width: 100%; padding: 0.8rem; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text-primary);" placeholder="John Doe" required>
+        </div>
+        <div style="margin-bottom: 1.5rem; text-align: left;">
+          <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">Work Email</label>
+          <input type="email" id="formEmail" style="width: 100%; padding: 0.8rem; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text-primary);" placeholder="j.doe@company.com" required>
+        </div>
+        <div style="margin-bottom: 1.5rem; text-align: left;">
+          <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">Organization Type</label>
+          <select id="formOrg" style="width: 100%; padding: 0.8rem; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text-primary);">
+            <option value="pco">Pest Control Operator</option>
+            <option value="hotel">Hospitality / Hotel</option>
+            <option value="senior">Senior Living</option>
+            <option value="housing">Multi-Family Housing</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 1.1rem; margin-top: 1rem;">
+          Send Request
+        </button>
+      </form>
+      <div id="formSuccess" style="display: none; text-align: center; margin-top: 1rem; color: var(--accent);">
+        ✓ Request sent! We will contact you shortly.
+      </div>
+    </div>
+  </div>
 </body>
 </html>
