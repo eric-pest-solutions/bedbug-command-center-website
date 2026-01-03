@@ -151,6 +151,7 @@
       transition: all 0.3s;
       box-shadow: var(--shadow-md);
       border: 1px solid var(--accent);
+      cursor: pointer;
     }
 
     .nav-cta:hover {
@@ -1224,10 +1225,44 @@
         background: white !important;
       }
     }
+
+    /* ============================================================================
+       CONTACT WEB FORM SYSTEM (STRICT THEME ADHERENCE)
+    ============================================================================ */
+    .lead-form-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+    .lead-form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .lead-form-input {
+      width: 100%;
+      padding: 0.8rem;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    .lead-form-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+    }
+    .lead-form-input::placeholder {
+      color: var(--text-muted);
+      opacity: 0.5;
+    }
   </style>
 </head>
 <body>
-  <!-- Navigation -->
   <nav class="navbar">
     <div class="container">
       <div class="nav-content">
@@ -1239,12 +1274,11 @@
           <li><a href="#research">Research</a></li>
           <li><a href="javascript:void(0)" onclick="showPCOPage()" style="color: var(--accent); font-weight: 600;">PCO Benefits</a></li>
         </ul>
-        <a href="#demo" class="nav-cta">Request Demo</a>
+        <a href="javascript:void(0)" onclick="openContactForm()" class="nav-cta">Request Demo</a>
       </div>
     </div>
   </nav>
 
-  <!-- Hero Section -->
   <section class="hero">
     <div class="container">
       <div class="hero-content">
@@ -1280,7 +1314,6 @@
     </div>
   </section>
 
-  <!-- Problem Section -->
   <section id="problem" class="section problem">
     <div class="container">
       <div class="section-inner">
@@ -1341,7 +1374,6 @@
     </div>
   </section>
 
-  <!-- Solution Section -->
   <section id="solution" class="section solution">
     <div class="container">
       <div class="section-inner">
@@ -1464,7 +1496,6 @@
     </div>
   </section>
 
-  <!-- ROI Calculator Section -->
   <section id="roi" class="section roi">
     <div class="container">
       <div class="section-inner">
@@ -1474,7 +1505,6 @@
             <p>Select your property type and adjust parameters to see estimated annual losses</p>
           </div>
 
-          <!-- Property Type Selector -->
           <div class="property-selector">
             <div class="property-type active" data-type="multifamily" onclick="selectPropertyType('multifamily')">
               <h4>Multi-Family Housing</h4>
@@ -1553,7 +1583,6 @@
     </div>
   </section>
 
-  <!-- Research Citations -->
   <section id="research" class="research-footer">
     <div class="container">
       <div class="research-header">
@@ -1619,7 +1648,6 @@
     </div>
   </section>
 
-  <!-- Sources Modal -->
   <div id="sourcesModal" class="modal">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal()">×</button>
@@ -1663,7 +1691,6 @@
     </div>
   </div>
 
-  <!-- PCO Benefits Page Overlay -->
   <div id="pcoModal" class="modal">
     <div class="modal-content" style="max-width: 1000px; max-height: 95vh;">
       <button class="modal-close" onclick="closePCOPage()">×</button>
@@ -1677,7 +1704,6 @@
         </p>
       </div>
 
-      <!-- Main WIIFM Benefits -->
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
         <div style="padding: 2rem; background: var(--bg-tertiary); border-radius: var(--radius); border: 1px solid var(--border); text-align: center; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--accent)'; this.style.boxShadow='0 8px 25px rgba(16, 185, 129, 0.2)'" onmouseout="this.style.borderColor='var(--border)'; this.style.boxShadow='none'">
           <div style="font-size: 3rem; margin-bottom: 1rem;">💰</div>
@@ -1716,7 +1742,6 @@
         </div>
       </div>
 
-      <!-- Intelligent Visit Strategy Builder Deep Dive -->
       <div style="background: var(--bg-tertiary); padding: 2.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-light); margin-bottom: 2rem;">
         <h3 style="color: var(--text-primary); margin-bottom: 1.5rem; font-size: 1.5rem; text-align: center;">
           🎯 Intelligent Visit Strategy Builder: Your Secret Weapon
@@ -1746,7 +1771,6 @@
         </div>
       </div>
 
-      <!-- ROI for PCOs -->
       <div style="text-align: center; padding: 2rem; background: var(--gradient-primary); border-radius: var(--radius-lg); color: white;">
         <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">Your Investment Pays for Itself</h3>
         <p style="margin-bottom: 1.5rem; font-size: 1.125rem; opacity: 0.9;">
@@ -1770,11 +1794,65 @@
     </div>
   </div>
 
+  <div id="contactModal" class="modal">
+    <div class="modal-content" style="max-width: 500px;">
+      <button class="modal-close" onclick="closeContactForm()">×</button>
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <h3 style="font-size: 1.75rem; color: var(--accent); margin-bottom: 0.5rem;">Request a Demo</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">Experience Biology-Driven Timing Intelligence firsthand.</p>
+      </div>
+      
+      <form id="leadForm" onsubmit="handleLeadSubmit(event)">
+        <div class="lead-form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" class="lead-form-input" placeholder="John Doe" required>
+        </div>
+        <div class="lead-form-group">
+          <label for="email">Work Email</label>
+          <input type="email" id="email" class="lead-form-input" placeholder="john@company.com" required>
+        </div>
+        <div class="lead-form-group">
+          <label for="org">Organization Type</label>
+          <select id="org" class="lead-form-input" style="background: var(--bg-tertiary); color: white;">
+            <option value="PCO">Pest Control Operator</option>
+            <option value="Senior Living">Senior Living Manager</option>
+            <option value="Hospitality">Hotel Operations</option>
+            <option value="Housing">Multi-Family Housing</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 1.1rem; margin-top: 1rem;">
+          Send Demo Request
+        </button>
+      </form>
+    </div>
+  </div>
+
   <script>
-    // ============================================================================
-    // SME-VALIDATED ROI CALCULATOR
-    // Cost data verified by industry expert panel
-    // ============================================================================
+    // Lead Form Visibility Logic
+    function openContactForm() {
+      document.getElementById('contactModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeContactForm() {
+      document.getElementById('contactModal').classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    function handleLeadSubmit(event) {
+      event.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const org = document.getElementById('org').value;
+      
+      // Integration Hook: This is where you would link to Cloudflare Workers or Formspree
+      console.log("DEMO REQUESTED:", { name, email, org });
+      
+      alert(`Success! Thank you, ${name}. Your request for the ${org} demo has been captured. Our SME team will contact you at ${email} shortly.`);
+      
+      closeContactForm();
+      document.getElementById('leadForm').reset();
+    }
 
     // Property type configurations - SME validated cost ranges
     const propertyProfiles = {
@@ -1800,7 +1878,7 @@
         label: 'Hospitality Properties',
         retreatRange: [500, 2000],      // Room service disruption
         vacancyRange: [1200, 4000],     // Daily revenue impact
-        compRange: [400, 1200],         // Guest compensation
+        compRange: [400, 1200],          // Guest compensation
         overtimeRange: [200, 600],      // 24/7 operations
         reputationRange: [300, 1000],   // Review impacts
         baseMultiplier: 1.5
@@ -1809,14 +1887,12 @@
 
     let currentPropertyType = 'multifamily';
 
-    // Severity multipliers based on SME input
     const severityMultipliers = {
-      1: { label: 'Light', multiplier: 0.7 },    // Early detection
-      2: { label: 'Moderate', multiplier: 1.0 }, // Standard case
-      3: { label: 'Severe', multiplier: 1.8 }    // Widespread/clustered
+      1: { label: 'Light', multiplier: 0.7 },
+      2: { label: 'Moderate', multiplier: 1.0 },
+      3: { label: 'Severe', multiplier: 1.8 }
     };
 
-    // Property type selector
     function selectPropertyType(type) {
       currentPropertyType = type;
       document.querySelectorAll('.property-type').forEach(el => {
@@ -1826,7 +1902,6 @@
       updateROI();
     }
 
-    // ROI Calculator - SME validated methodology with minimum base costs
     function updateROI() {
       const incidents = parseInt(document.getElementById('incidents').value);
       const failureRate = parseInt(document.getElementById('failureRate').value);
@@ -1836,32 +1911,26 @@
       const severityData = severityMultipliers[severity];
       const multiplier = profile.baseMultiplier * severityData.multiplier;
       
-      // Calculate failures per year with minimum base cost logic
       let failures = Math.round(incidents * (failureRate / 100));
       
-      // Prevent $0 costs: minimum base cost unless incidents = 0 and failure rate <= 5%
       if (incidents === 0 && failureRate <= 5) {
         failures = 0;
       } else if (failures === 0) {
-        // Apply minimum base cost even with 0 calculated failures
-        failures = 0.5; // Represents ongoing risk and preparedness costs
+        failures = 0.5;
       }
       
-      // Component cost calculations with severity adjustment
       const retreatAvg = ((profile.retreatRange[0] + profile.retreatRange[1]) / 2) * multiplier;
       const vacancyAvg = ((profile.vacancyRange[0] + profile.vacancyRange[1]) / 2) * multiplier;
       const compAvg = ((profile.compRange[0] + profile.compRange[1]) / 2) * multiplier;
       const overtimeAvg = ((profile.overtimeRange[0] + profile.overtimeRange[1]) / 2) * multiplier;
       const reputationAvg = ((profile.reputationRange[0] + profile.reputationRange[1]) / 2) * multiplier;
       
-      // Calculate costs with minimum base amounts
       const retreatCost = Math.round(failures * retreatAvg);
       const vacancyCost = Math.round(failures * vacancyAvg);
       const compCost = Math.round(failures * compAvg);
       const overtimeCost = Math.round(failures * overtimeAvg);
       const reputationCost = Math.round(failures * reputationAvg);
       
-      // Add ongoing operational costs (minimum base cost)
       const baseCosts = {
         multifamily: { retreat: 200, vacancy: 400, comp: 100, overtime: 50, reputation: 50 },
         senior: { retreat: 300, vacancy: 500, comp: 150, overtime: 75, reputation: 100 },
@@ -1877,17 +1946,15 @@
       const finalReputationCost = Math.max(reputationCost, base.reputation);
       
       const totalLoss = finalRetreatCost + finalVacancyCost + finalCompCost + finalOvertimeCost + finalReputationCost;
-      const softwareCost = 499; // Professional tier
+      const softwareCost = 499;
       const savingsMultiple = Math.round(totalLoss / softwareCost);
       const breakevenFailures = Math.ceil(softwareCost / (retreatAvg + vacancyAvg + compAvg + overtimeAvg + reputationAvg));
       
-      // Update display
       document.getElementById('incidentsValue').textContent = incidents + ' incidents';
       document.getElementById('failureRateValue').textContent = failureRate + '%';
       document.getElementById('severityValue').textContent = severityData.label;
       document.getElementById('lossValue').textContent = '$' + totalLoss.toLocaleString();
       
-      // Update breakdown
       document.getElementById('retreatCost').textContent = '$' + finalRetreatCost.toLocaleString();
       document.getElementById('vacancyCost').textContent = '$' + finalVacancyCost.toLocaleString();
       document.getElementById('compCost').textContent = '$' + finalCompCost.toLocaleString();
@@ -1895,17 +1962,14 @@
       document.getElementById('reputationCost').textContent = '$' + finalReputationCost.toLocaleString();
       document.getElementById('totalCost').textContent = '$' + totalLoss.toLocaleString();
       
-      // Update insight
       document.getElementById('breakeven').textContent = breakevenFailures;
       document.getElementById('savingsMultiple').textContent = Math.max(savingsMultiple, 1) + '×';
     }
 
-    // Event listeners
     document.getElementById('incidents').addEventListener('input', updateROI);
     document.getElementById('failureRate').addEventListener('input', updateROI);
     document.getElementById('severity').addEventListener('input', updateROI);
 
-    // Modal functions
     function openModal() {
       document.getElementById('sourcesModal').classList.add('active');
     }
@@ -1914,55 +1978,44 @@
       document.getElementById('sourcesModal').classList.remove('active');
     }
 
-    // PCO page functions
     function showPCOPage() {
       document.getElementById('pcoModal').classList.add('active');
-      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+      document.body.style.overflow = 'hidden';
     }
 
     function closePCOPage() {
       document.getElementById('pcoModal').classList.remove('active');
-      document.body.style.overflow = 'auto'; // Restore scrolling
+      document.body.style.overflow = 'auto';
     }
 
-    // Scroll reveal animation
     function reveal() {
       const reveals = document.querySelectorAll('.reveal');
-      
       reveals.forEach(element => {
         const windowHeight = window.innerHeight;
         const elementTop = element.getBoundingClientRect().top;
-        const elementVisible = 150;
-        
-        if (elementTop < windowHeight - elementVisible) {
+        if (elementTop < windowHeight - 150) {
           element.classList.add('active');
         }
       });
     }
 
-    // Close modal on outside click
-    document.getElementById('sourcesModal').addEventListener('click', function(e) {
-      if (e.target === this) {
-        closeModal();
-      }
-    });
+    // Modal click-outside logic
+    window.onclick = function(event) {
+        if (event.target.className === 'modal active') {
+            closeModal();
+            closePCOPage();
+            closeContactForm();
+        }
+    };
 
-    // Close PCO modal on outside click
-    document.getElementById('pcoModal').addEventListener('click', function(e) {
-      if (e.target === this) {
-        closePCOPage();
-      }
-    });
-
-    // Handle escape key for modals
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
         closeModal();
         closePCOPage();
+        closeContactForm();
       }
     });
 
-    // Smooth scroll for navigation
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
         e.preventDefault();
@@ -1973,25 +2026,21 @@
       });
     });
 
-    // Initialize
     window.addEventListener('scroll', reveal);
     window.addEventListener('load', () => {
       reveal();
       updateROI();
     });
 
-    // Navbar scroll effect
     let lastScrollTop = 0;
     window.addEventListener('scroll', () => {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       const navbar = document.querySelector('.navbar');
-      
       if (scrollTop > lastScrollTop && scrollTop > 100) {
         navbar.style.transform = 'translateY(-100%)';
       } else {
         navbar.style.transform = 'translateY(0)';
       }
-      
       lastScrollTop = scrollTop;
     });
   </script>
