@@ -1784,7 +1784,7 @@
       };
 
       try {
-        const response = await fetch('https://quiet-dawn-36fb.peakattitude.workers.dev/', {
+        const response = await fetch('/api/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData)
